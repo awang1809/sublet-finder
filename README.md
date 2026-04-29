@@ -1,6 +1,6 @@
 ﻿# UBC sublet finder
 
-https://subletify.streamlit.app/
+https://subletfinder.streamlit.app/
 
 ## Tools Used:
 Python: pandas, numpy

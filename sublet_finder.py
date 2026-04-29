@@ -1,10 +1,11 @@
-from datetime import datetime, date, timedelta
+from datetime import date, timedelta
 import streamlit as st
 import pandas as pd
 
 
 today = date.today()
 one_week_ago = today - timedelta(days = 7)
+
 # cleaning data
 sublet = pd.read_csv("data/postings.csv")
 sublet["negotiable"] = sublet["negotiable"].fillna("No")

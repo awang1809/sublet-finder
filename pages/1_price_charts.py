@@ -24,13 +24,17 @@ if unit != "Any":
 
 sublet_line = sublet.groupby("date")["rent_cad"].mean().reset_index()
 
-if residences:
+if residences and not sublet_line.empty:
     date_range = pd.date_range(start=sublet_line["date"].min(), end=sublet_line["date"].max(), freq="D")
     sublet_line = (sublet_line.set_index("date").reindex(date_range, fill_value=None).reset_index().rename(columns={"index": "date"}))
     sublet_line["rent_cad"] = sublet_line["rent_cad"].interpolate(method="linear")
 
 sublet_bar = sublet.groupby("date")["residence"].count()
-with left:
-    st.line_chart(sublet_line.set_index("date")["rent_cad"], x_label="Date", y_label="Rent", width="stretch", height=400)
-with right:
-    st.bar_chart(sublet_bar, x_label="Date", y_label="Amount of postings", width="stretch", height=400)
+
+if sublet_line.empty:
+    st.info("No postings match the selected filters.")
+else:
+    with left:
+        st.line_chart(sublet_line.set_index("date")["rent_cad"], x_label="Date", y_label="Rent", width="stretch", height=400)
+    with right:
+        st.bar_chart(sublet_bar, x_label="Date", y_label="Amount of postings", width="stretch", height=400)
